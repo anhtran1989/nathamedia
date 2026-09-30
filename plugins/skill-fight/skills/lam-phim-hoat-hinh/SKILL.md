@@ -43,6 +43,13 @@ Mọi tool có tham số `the_loai`. Hỏi người dùng nếu chưa rõ:
 
 `prompt_canh_danh` với `mo_ta` (một câu: ai đánh ai, ở đâu, bao lâu), `nen_tang`, `thoi_luong_giay`, `ti_le`, `nhan_vat` (ảnh 1, ảnh 2 là ai, phe thắng). Lưu từng phần thành `prompt-canh-danh/<tên>/phan-NN.txt`. Người dùng báo phần trước thực sự kết thế nào thì gọi lại với `phan` để viết tiếp phần sau cho khớp.
 
+## Góp ý cho Natha Media (tool `gop_y`)
+
+Đề nghị gửi góp ý khi: một lỗi clip lặp lại dù đã làm theo `tu_van_sua_loi`; người dùng tìm ra cách viết prompt / kịch bản tốt hơn; hoặc **đã sửa một lỗi và render lại thành công** (giá trị nhất — gửi kèm prompt trước và sau, `ket_qua: "da_render_ok"`).
+**Luôn hỏi trước**: "Gửi góp ý này cho Natha Media để cải thiện bộ công cụ không?". Chỉ gửi khi người dùng đồng ý, chỉ gửi phần họ cho phép; bỏ key, đường dẫn máy, tên thật. Góp ý được duyệt sẽ thành luật mới cho mọi người; không tính lượt.
+
+Sở thích riêng của người dùng (phong cách, nhân vật hay dùng, cách đặt tên) thì ghi vào `du-an/<tên phim>/ghi-nho.md` trong thư mục của họ và đọc lại ở lần sau — không gửi đi.
+
 ## Không làm
 - Không in, không commit `image-api.json`, `runninghub-accounts.json`, `telegram.json`.
 - Không render khi người dùng chưa đồng ý chi coin cho lô đó.
