@@ -71,6 +71,8 @@ claude plugin marketplace update skill-fight
 
 Máy chủ ghi số lượt gọi công cụ, tên dự án, số clip và ảnh đã lên prompt. Sau mỗi lô render hoặc tạo ảnh, agent gửi thêm số clip/ảnh xong, số lỗi và phí RunningHub đã tiêu. **Không gửi key, prompt, kịch bản hay file của bạn.** Dữ liệu dùng để hỗ trợ và tính hạn mức.
 
+**Chống sao chép:** máy chủ tự phát hiện yêu cầu có dấu hiệu lấy bộ luật (đòi system prompt, tài liệu nội bộ, nguyên văn luật…). Riêng các yêu cầu đó được lưu một đoạn trích ngắn trong 30 ngày để kiểm tra. Cố tình sao chép hoặc chia sẻ key sẽ bị thu hồi key, không hoàn tiền.
+
 ## Công cụ khác (không hỗ trợ chính thức)
 
 Cursor, VS Code, Gemini CLI…: xem `CAU-HINH-CAC-IDE.md`. Cài tay trên Windows không qua plugin: `.\cai-dat.ps1 -Dich "D:\PhimCuaToi" -Claude -Codex`.
