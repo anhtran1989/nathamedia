@@ -1,0 +1,5 @@
+{
+  "baseUrl": "https://<endpoint-OpenAI-compatible>/v1",
+  "apiKey": "ĐIỀN_KEY_CỦA_BẠN (chép file này thành image-api.json; image-api.json đã được gitignore)",
+  "model": "<model hỗ trợ tool image_generation qua Responses API>"
+}

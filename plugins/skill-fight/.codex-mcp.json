@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "skill-fight": {
+      "url": "https://mcp.nathamedia.store/mcp",
+      "bearer_token_env_var": "SKILL_FIGHT_KEY",
+      "default_tools_approval_mode": "approve",
+      "startup_timeout_sec": 30,
+      "tool_timeout_sec": 900
+    }
+  }
+}

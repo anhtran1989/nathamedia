@@ -1,0 +1,7 @@
+{
+  "_ghi_chu": "Chép thành runninghub-accounts.json (đã gitignore). Mỗi tài khoản: API key của RunningHub; ultraWorkflowId = ID workflow sau khi import tools/runninghub/workflows/WF_Ultra_Speed_Singularity_Minimax_AUDIO.json vào CHÍNH tài khoản đó rồi Save; maxConcurrent = số task chạy cùng lúc của gói (thường 5). enabled=false để tạm tắt.",
+  "accounts": [
+    { "name": "tk1", "apiKey": "<RUNNINGHUB_API_KEY>", "ultraWorkflowId": "<ID workflow Ultra trên tài khoản này>", "maxConcurrent": 5, "enabled": true },
+    { "name": "tk2", "apiKey": "<RUNNINGHUB_API_KEY>", "ultraWorkflowId": "<ID workflow Ultra trên tài khoản này>", "maxConcurrent": 5, "enabled": false }
+  ]
+}

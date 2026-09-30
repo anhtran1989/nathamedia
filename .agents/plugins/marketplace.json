@@ -1,0 +1,12 @@
+{
+  "name": "skill-fight",
+  "interface": { "displayName": "Skill-Fight (Natha Media)" },
+  "plugins": [
+    {
+      "name": "skill-fight",
+      "source": { "source": "local", "path": "./plugins/skill-fight" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    }
+  ]
+}

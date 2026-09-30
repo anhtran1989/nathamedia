@@ -1,0 +1,39 @@
+{
+  "name": "skill-fight",
+  "version": "0.2.0",
+  "description": "Làm phim hoạt hình AI cho ba thể loại (drama, hài câm, cảnh đánh): nghĩ ý tưởng, viết và soát kịch bản, prompt ảnh tài sản, lập phân cảnh, sinh prompt MiniMax H3 có khoá liền mạch, prompt cảnh đánh Seedance / H3 / Veo, render RunningHub nhiều tài khoản, tư vấn sửa lỗi clip. Cần license key Skill-Fight.",
+  "author": {
+    "name": "Natha Media"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "animation",
+    "minimax",
+    "h3",
+    "seedance",
+    "runninghub",
+    "video prompt",
+    "slapstick",
+    "fight scene",
+    "script"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.codex-mcp.json",
+  "interface": {
+    "displayName": "Skill-Fight",
+    "shortDescription": "Phim hoạt hình AI: drama, hài câm, cảnh đánh",
+    "longDescription": "Từ ý tưởng tới clip, cho drama, hài câm không thoại và cảnh đánh: nghĩ ý tưởng, viết và soát kịch bản, prompt ảnh nhân vật và bối cảnh, lập phân cảnh, sinh prompt MiniMax H3 có khoá vị trí, vai và đạo cụ, prompt cảnh đánh Seedance / H3 / Veo, render trên RunningHub nhiều tài khoản, kiểm clip và tư vấn sửa lỗi. Cần license key Skill-Fight (biến môi trường SKILL_FIGHT_KEY).",
+    "developerName": "Natha Media",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Nghĩ 5 ý tưởng tập hài câm cho nhân vật của tôi",
+      "Làm phim hoạt hình từ kich-ban.md",
+      "Làm cảnh đánh 30 giây: kiếm khách áo đỏ đánh bầy sói trên cầu tre",
+      "Kiểm tra license Skill-Fight của tôi"
+    ]
+  }
+}

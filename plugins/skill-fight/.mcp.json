@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "skill-fight": {
+      "type": "http",
+      "url": "https://mcp.nathamedia.store/mcp",
+      "headers": { "Authorization": "Bearer ${user_config.license_key}" }
+    }
+  }
+}
