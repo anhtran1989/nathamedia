@@ -27,7 +27,7 @@ claude plugin marketplace add anhtran1989/nathamedia
 claude plugin install skill-fight@skill-fight
 ```
 
-Claude Code hỏi license key lúc cài và lưu vào kho khoá an toàn của máy.
+Claude Code hỏi license key lúc cài và lưu vào kho khoá an toàn của máy. Nếu không thấy hỏi (hoặc muốn đổi key): mở Claude Code, gõ `/plugin`, chọn **skill-fight** → **Configure**, dán key.
 
 **Codex:**
 
