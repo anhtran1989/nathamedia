@@ -147,7 +147,7 @@ async function batch() {
       jobs.push({ id: it.asset_id, prompt: it.image_prompt, size: sizeFor(it.image_aspect_ratio), refs: [] });
   for (const it of items)
     for (const v of it.variants || [])
-      jobs.push({ id: v.asset_id, prompt: v.image_prompt, size: "1536x1024", refs: (v.reference_inputs || []).map((r) => path.join(dir, r + ".png")) });
+      jobs.push({ id: v.asset_id, prompt: v.image_prompt, size: sizeFor(v.image_aspect_ratio || "16:9"), refs: (v.reference_inputs || []).map((r) => path.join(dir, r + ".png")) });
   for (const it of items)
     if (it.needs_expression_sheet)
       jobs.push({ id: it.asset_id + "_bieu_cam", prompt: it.expression_sheet_prompt, size: "1536x1024", refs: [path.join(dir, it.asset_id + ".png")] });
@@ -160,8 +160,6 @@ async function batch() {
   async function runOne(job) {
     const out = path.join(dir, job.id + ".png");
     if (fs.existsSync(out) && !flag("force")) { console.log(`bỏ qua (đã có) ${job.id}`); return; }
-    const missing = job.refs.filter((r) => !fs.existsSync(r));
-    if (missing.length) { console.log(`chờ ảnh gốc ${job.id}: thiếu ${missing.map((m) => path.basename(m)).join(", ")}`); return; }
     if (flag("dry-run")) { console.log(`[dry-run] ${job.id} ${job.size} refs=${job.refs.length} prompt=${job.prompt.length} ký tự`); return; }
     console.log(`BẮT ĐẦU ${job.id}`);
     try {
@@ -175,14 +173,23 @@ async function batch() {
     }
   }
 
-  // Hai đợt: ảnh không cần ref (nhân vật, bối cảnh) trước, ảnh cần ref (biến thể, biểu cảm) sau; mỗi đợt chạy `conc` luồng.
+  // Chạy theo đợt: đợt 1 là ảnh không cần ref (nhân vật, bối cảnh); mỗi đợt sau là ảnh có đủ ref (biến thể, bảng biểu cảm,
+  // rồi ảnh làm từ biến thể như bản đồ @tren_cao lấy ảnh góc làm ref). Mỗi đợt chạy `conc` luồng.
   const selected = jobs.filter((j) => !only || only.includes(j.id));
-  for (const wave of [selected.filter((j) => !j.refs.length), selected.filter((j) => j.refs.length)]) {
+  const daLam = new Set();
+  const coRef = (r) => fs.existsSync(r) || (flag("dry-run") && daLam.has(path.basename(r, ".png")));
+  let conLai = selected;
+  while (conLai.length) {
+    const wave = conLai.filter((j) => j.refs.every(coRef));
+    if (!wave.length) break;
+    conLai = conLai.filter((j) => !wave.includes(j));
     let next = 0;
     const worker = async () => { while (!aborted && next < wave.length) await runOne(wave[next++]); };
     await Promise.all(Array.from({ length: Math.min(conc, wave.length) }, worker));
     if (aborted) process.exit(1);
+    wave.forEach((j) => daLam.add(j.id));
   }
+  for (const j of conLai) console.log(`chờ ảnh gốc ${j.id}: thiếu ${j.refs.filter((r) => !coRef(r)).map((m) => path.basename(m)).join(", ")}`);
 }
 
 const map = { ping, models, resp, batch };
