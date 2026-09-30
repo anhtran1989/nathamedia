@@ -51,4 +51,3 @@ Theo dõi: `REQ_PREFIX=_yeu-cau-render-<tiền tố>- python -X utf8 -u tools/wa
 | `lib/ultra-h3.mjs` | payload Ultra 9 slot, `padIndex`, audio im lặng, preflight workflow |
 | `lib/silence-0.5s.mp3` | lấp ô audio trống |
 | `workflows/WF_Ultra_Speed_Singularity_Minimax_AUDIO.json` | workflow để import vào mỗi tài khoản |
-| `docs/h3-official/` | hướng dẫn prompt chính thức của MiniMax H3 |
