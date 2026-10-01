@@ -3,6 +3,6 @@
 [mcp_servers.skill-fight]
 url = "https://mcp.nathamedia.store/mcp"
 bearer_token_env_var = "SKILL_FIGHT_KEY"
-tool_timeout_sec = 600      # lap_phan_canh / soat_kich_ban có thể mất vài phút
+tool_timeout_sec = 900      # viet_kich_ban (có vòng tự soát) tới ~9 phút, lap_phan_canh vài phút
 startup_timeout_sec = 30
 default_tools_approval_mode = "approve"   # các tool chỉ trả kết quả (readOnly), không ghi gì lên máy
