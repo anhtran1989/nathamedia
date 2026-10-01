@@ -38,7 +38,11 @@ Mọi tool có tham số `the_loai`. Hỏi người dùng nếu chưa rõ:
    - Xem trước: `node tools/runninghub/ultra-batch.mjs "<file yêu cầu>" --dry` (0 coin, in số clip mỗi tài khoản đủ coin chạy).
    - **Hỏi người dùng xác nhận coin một lần cho cả lô**, rồi chạy nền: `node tools/runninghub/ultra-batch.mjs "<file yêu cầu>" --retry-oom [--telegram]`. Tổng luồng = tổng `maxConcurrent` các tài khoản trong `runninghub-accounts.json`.
    - Mỗi clip chạy đúng một lần; không tự chạy lại clip lỗi. Dừng đưa thêm clip: tạo file `.runninghub/state/STOP`.
-7. **Kiểm clip**: với mỗi video, chụp 10 khung (`ffmpeg -i clip.mp4 -vf "fps=1,scale=400:-1,tile=5x2" -frames:v 1 qc.jpg`) và xem: đúng nhân vật, không thiếu hay nhân đôi nhân vật, đúng trái/phải, đúng đạo cụ, nét mặt khớp thoại, không chữ lạ, hiệu ứng nào cũng có nguồn. Thiếu nhân vật hay hiệu ứng không nguồn là clip hỏng.
+7. **Kiểm clip, hai lớp, trước khi ghép** (nhìn tổng thể là sót lỗi: bóng nằm sai chỗ, dấu tay sai, cầu tụt giữa hai clip đều nằm sẵn trong ảnh kiểm):
+   - Đủ clip của tập thì chạy `python tools/soat_noi_clip.py "du-an/<phim>/takes/<tập>"` (chỉ cần ffmpeg; tự lấy bản `-vN` mới nhất). Ra `_qc/<id>.jpg` (2 khung/giây mỗi clip), `_qc/_noi.jpg` (mỗi hàng: khung cuối clip trước | khung đầu clip sau) và `_qc/_tong-1s.jpg` (1 khung/giây, mỗi clip một hàng).
+   - **Từng clip, đi hết bảng kiểm**: (1) nhân vật đủ, không thừa, không nhân đôi; (2) giải phẫu đúng (đếm mắt, chân, tay, cánh); (3) **từng đạo cụ** ở đúng chỗ ở mọi khung, kể cả khung cận; (4) hậu quả nào cũng có nguyên nhân thấy được; (5) **kết quả đúng kịch bản** (ai thắng, dấu tay, điểm số); (6) **mốc cố định** (cầu, cửa, bàn) giữ độ cao và vị trí; (7) trạng thái (ướt, vỡ, sưng) đúng sổ. Nghi chỗ nào thì soi dày 4–8 khung/giây chỗ đó.
+   - **Từng chỗ nối** trên `_noi.jpg`: ai ở phía nào, vật ở đâu, trạng thái và mốc cố định có khớp giữa hai clip không.
+   - Dòng nào trượt là clip trượt: nói thẳng với người dùng, sửa theo bước 8 hoặc cắt phần lỗi khi ghép nếu lỗi nằm gọn ở đầu hay cuối clip. Cảnh có hai tầng xa nhau (người trên cầu, người dưới nước) mà cả hai phải to rõ thì model kéo hai tầng lại gần: tách thành hai cú máy thay vì thêm chữ.
 8. **Sửa lỗi**: `tu_van_sua_loi` với mô tả lỗi + prompt của clip + `the_loai`, sửa segment theo câu trả lời, thêm segment id `…-v2`, sinh prompt lại chỉ cho clip đó và render file yêu cầu mới. Không ghi đè clip cũ.
 
 ## Cảnh đánh ngắn (Seedance 2.0 / H3 / Veo)
