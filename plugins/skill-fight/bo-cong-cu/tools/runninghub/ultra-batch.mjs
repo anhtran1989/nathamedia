@@ -62,6 +62,13 @@ for (const a of ACCOUNTS) {
 const affordable = (a) => !(budget[a.name] < RESERVE[a.name]);
 let inflight = 0;
 
+// Gọi lay-lai.mjs: 0 = đã tải, 2 = task FAILED thật, khác = chưa xong / vẫn mất mạng.
+const layLai = (task, accName, out) => new Promise((resolve) => {
+  const p = spawn(process.execPath, [path.join(HERE, "lay-lai.mjs"), task, accName, out]);
+  let s = ""; p.stdout.on("data", (d) => (s += d)); p.stderr.on("data", (d) => (s += d));
+  p.on("close", (code) => resolve({ code, coins: s.match(/· (\d+(?:\.\d+)?) coin/)?.[1] ?? null }));
+});
+
 async function failReason(taskId, accName) {
   const key = keyOf(accName);
   if (!key || !taskId) return null;
@@ -189,9 +196,20 @@ function runOne(c, acc) {
     p.on("close", async (code) => {
       if (DRY) return resolve();
       const task = log.match(/task (\d+)/)?.[1] ?? null;
-      const done = log.match(/DONE → .+ · (\S+) (coins|USD) · ([\d.]+) min/);
-      const status = code === 0 && done ? "done" : task ? "failed" : "not_created"; // not_created = 0 coin, được gửi lại
+      let done = log.match(/DONE → .+ · (\S+) (coins|USD) · ([\d.]+) min/);
+      let status = code === 0 && done ? "done" : task ? "failed" : "not_created"; // not_created = 0 coin, được gửi lại
       inflight--;
+      // Mất mạng sau khi đã tạo task (mã 5 hoặc lỗi fetch): task trên máy chủ vẫn chạy → hỏi lại bằng lay-lai.mjs mỗi phút, tối đa 40 phút (2/10/2026)
+      if (status === "failed" && (code === 5 || /fetch failed|ECONNRESET|ETIMEDOUT|UND_ERR|TimeoutError|aborted/i.test(log))) {
+        console.log(`[${c.id}] mất mạng khi theo dõi task ${task}, lấy lại theo mã task (không tạo task mới)`);
+        const t1 = Date.now();
+        for (let lan = 1; lan <= 40; lan++) {
+          const r = await layLai(task, acc.name, c.cfg.out);
+          if (r.code === 0) { status = "done"; done = [null, r.coins ?? "?", "coins", ((Date.now() - t1) / 60000).toFixed(1)]; console.log(`[${c.id}] lấy lại được: ${r.coins ?? "?"} coin`); break; }
+          if (r.code === 2) { console.log(`[${c.id}] task báo FAILED thật`); break; }
+          await new Promise((res) => setTimeout(res, 60000));
+        }
+      }
             if (status === "not_created") budget[acc.name] += RESERVE[acc.name];                                   // chưa tạo task: không mất coin
       const reason = status === "failed" ? await failReason(task, acc.name) : null;
       const broke = status === "not_created" && /NOT_ENOUGH_BALANCE|"code":605/.test(log);

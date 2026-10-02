@@ -35,7 +35,10 @@ const WITH_AUDIO = audioFiles.length > 0;
 const WF = cfg.workflowId || acc.ultraWorkflowId;
 const die = (msg, code = 1) => { console.error(clean(msg)); process.exit(code); };
 
-const afetch = async (u, o = {}) => { for (let a = 1; ; a++) { try { return await fetch(u, o); } catch (e) { if (a >= 3) throw e; await new Promise((r) => setTimeout(r, 20000 * a)); } } };
+// Mạng tới runninghub.ai hay chập chờn (2/10/2026: hai lô báo FAILED cả 10 clip dù task trên máy chủ vẫn xong): mỗi lần gọi có hạn 60 s,
+// lỗi mạng thì thử lại; vòng hỏi trạng thái không bao giờ chết vì mạng, chỉ kết thúc khi task xong/lỗi thật hoặc quá hạn.
+const afetch = async (u, o = {}, lan = 3) => { for (let a = 1; ; a++) { try { return await fetch(u, { ...o, signal: AbortSignal.timeout(60000) }); } catch (e) { if (a >= lan) throw e; await new Promise((r) => setTimeout(r, 20000 * a)); } } };
+const LOST = 5; // mã thoát: task đã tạo nhưng mất mạng, ultra-batch tự lấy lại bằng lay-lai.mjs
 async function uploadFile(p, tag, fileType = "image") {
   const bytes = new Uint8Array(fs.readFileSync(p));
   const ext = fileType === "image" ? ".png" : path.extname(p).toLowerCase();
@@ -116,22 +119,27 @@ for (let attempt = 1; !taskId; attempt++) {
 console.log(`task ${taskId} — [${acc.name}] rendering (${refs.filter(Boolean).length} refs, ${cfg.aspect ?? "16:9"})...`);
 const t0 = Date.now();
 let st = "QUEUED";
-while (Date.now() - t0 < 30 * 60 * 1000) {
+let matMang = 0;
+while (Date.now() - t0 < 45 * 60 * 1000) {
   await new Promise((r) => setTimeout(r, 20000));
-  st = await status(String(taskId));
+  try { st = await status(String(taskId)); }
+  catch (e) { matMang++; console.log(`[${acc.name}] mất mạng khi hỏi trạng thái (lần ${matMang}: ${e.cause?.code ?? e.message}), hỏi tiếp`); continue; }
   if (st === "SUCCESS" || st === "FAILED" || st === "CANCELED") break;
 }
+if (st !== "SUCCESS" && st !== "FAILED" && st !== "CANCELED") die(`LOST task ${taskId}: quá 45 phút chưa biết kết quả (${st})`, LOST);
 if (st !== "SUCCESS") die(`render ended ${st}`);
 let url = null, coins = "? coins";
-for (let a = 0; a < 6 && !url; a++) {
-  if (a) await new Promise((r) => setTimeout(r, 15000));
-  const outs = await outputs(String(taskId));
+for (let a = 0; a < 10 && !url; a++) {
+  if (a) await new Promise((r) => setTimeout(r, 15000 + 5000 * a));
+  let outs = [];
+  try { outs = await outputs(String(taskId)); } catch (e) { console.log(`[${acc.name}] mất mạng khi lấy output (lần ${a + 1}), thử lại`); continue; }
   url = outs[0]?.fileUrl ?? null;
   const o = outs[0] ?? {};
   coins = o.consumeCoins != null ? `${o.consumeCoins} coins` : o.consumeMoney != null ? `${o.consumeMoney} USD` : "? coins";
 }
-if (!url) die("SUCCESS nhưng không có output url");
-const r2 = await afetch(url);
+if (!url) die(`LOST task ${taskId}: SUCCESS nhưng chưa lấy được output url`, LOST);
+let r2;
+try { r2 = await afetch(url, {}, 8); } catch (e) { die(`LOST task ${taskId}: SUCCESS nhưng tải video lỗi mạng`, LOST); }
 fs.mkdirSync(path.dirname(cfg.out), { recursive: true });
 fs.writeFileSync(cfg.out, Buffer.from(await r2.arrayBuffer()));
 console.log(`DONE → ${cfg.out} · ${coins} · ${((Date.now() - t0) / 60000).toFixed(1)} min`);

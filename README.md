@@ -67,6 +67,10 @@ claude plugin marketplace update skill-fight
 
 (Codex: `codex plugin marketplace upgrade`.)
 
+Bộ công cụ trong thư mục phim (`tools/`) tự được chép lại ở lần làm việc tiếp theo, khi `tools/PHIEN-BAN.txt` cũ hơn plugin; file cấu hình chứa key của bạn không bị đụng. Cài tay bằng `cai-dat.ps1` thì chạy lại lệnh cài.
+
+**0.3.4:** render chịu được mạng chập chờn. Mất mạng sau khi đã gửi clip thì công cụ hỏi tiếp rồi tự lấy lại video theo mã task, không báo lỗi oan, không tốn thêm coin. Lấy tay một clip: `node tools/runninghub/lay-lai.mjs <taskId> <tài khoản> <file.mp4>`.
+
 ## Thống kê sử dụng
 
 Máy chủ ghi số lượt gọi công cụ, tên dự án, số clip và ảnh đã lên prompt. Sau mỗi lô render hoặc tạo ảnh, agent gửi thêm số clip/ảnh xong, số lỗi và phí RunningHub đã tiêu. **Không gửi key, prompt, kịch bản hay file của bạn.** Dữ liệu dùng để hỗ trợ và tính hạn mức.

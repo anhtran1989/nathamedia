@@ -3,7 +3,7 @@
 
   .\cai-dat.ps1 -Dich "D:\PhimCuaToi" [-Codex] [-Claude] [-MayChu "https://mcp.nathamedia.store/mcp"] [-KhongLuuKey]
 
-  - Chép bộ công cụ (tools\image-api.mjs, tools\runninghub\, file mẫu cấu hình) vào -Dich (không ghi đè file đã có).
+  - Chép bộ công cụ (tools\image-api.mjs, tools\runninghub\, file mẫu cấu hình) vào -Dich: tools\ luôn chép đè (cài lại để cập nhật), file cấu hình đã có không bao giờ bị ghi đè.
   - Chép skill lam-phim-hoat-hinh vào -Dich\.agents\skills (Codex) và/hoặc -Dich\.claude\skills (Claude Code).
   - -Codex : thêm [mcp_servers.skill-fight] vào $env:CODEX_HOME\config.toml hoặc ~\.codex\config.toml (sao lưu trước, không trùng lặp).
   - -Claude: đăng ký MCP cho Claude Code bằng `claude mcp add` (nếu có lệnh claude); hoặc cài plugin theo README.
@@ -25,7 +25,8 @@ New-Item -ItemType Directory -Force $Dich | Out-Null
 Get-ChildItem -Recurse -File (Join-Path $Nguon "plugins/skill-fight/bo-cong-cu") | ForEach-Object {
   $rel = $_.FullName.Substring((Join-Path $Nguon "plugins/skill-fight/bo-cong-cu").Length + 1)
   $dst = Join-Path $Dich $rel
-  if (-not (Test-Path $dst)) { New-Item -ItemType Directory -Force (Split-Path $dst) | Out-Null; Copy-Item $_.FullName $dst }
+  # tools\ là code của plugin: luôn chép đè để bản cài lại nhận bản sửa mới; file cấu hình ở gốc (key của bạn) không bao giờ bị ghi đè
+  if (-not (Test-Path $dst) -or $rel -like "tools\*") { New-Item -ItemType Directory -Force (Split-Path $dst) | Out-Null; Copy-Item $_.FullName $dst }
 }
 foreach ($f in @("image-api", "runninghub-accounts")) {
   $real = Join-Path $Dich "$f.json"

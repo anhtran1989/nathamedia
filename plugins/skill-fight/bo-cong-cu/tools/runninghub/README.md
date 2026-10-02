@@ -36,6 +36,7 @@ Theo dõi: `REQ_PREFIX=_yeu-cau-render-<tiền tố>- python -X utf8 -u tools/wa
 - `--retry-oom`: lỗi GPU hết bộ nhớ (lỗi máy chủ) chạy lại đúng 1 lần, seed mới.
 - Giữ coin: đầu lô đọc coin của từng tài khoản; mỗi clip giữ trước `--coin-clip` coin (mặc định 230), xong trả lại phần thừa. Tài khoản không đủ coin không nhận clip mới; tất cả hết coin thì dừng và báo số clip chưa gửi.
 - 421 QUEUE_MAXED: task chưa được tạo (0 coin) → chờ 60 s rồi gửi lại, tối đa 40 lần.
+- Mạng chập chờn sau khi đã tạo task: `render-clip.mjs` vẫn hỏi trạng thái tiếp, không báo lỗi; còn mất thì `ultra-batch` tự lấy lại video theo mã task mỗi phút, tối đa 40 phút, không tạo task mới, không tốn thêm coin. Lấy tay một clip: `node tools/runninghub/lay-lai.mjs <taskId> <tài khoản> <file.mp4>` (taskId và tài khoản có trong file state).
 - Dừng đưa thêm clip mới: tạo file `.runninghub/state/STOP` (task đang chạy vẫn chạy xong).
 - State: `.runninghub/state/<dự án>__<tên file yêu cầu>.json` (gitignored).
 - Không bao giờ in key: mọi dòng log đi qua `clean()`.
@@ -46,6 +47,7 @@ Theo dõi: `REQ_PREFIX=_yeu-cau-render-<tiền tố>- python -X utf8 -u tools/wa
 |---|---|
 | `ultra-batch.mjs` | chạy lô nhiều tài khoản |
 | `render-clip.mjs` | một clip, một tài khoản |
+| `lay-lai.mjs` | lấy lại video của task đã tạo khi mất mạng (không tạo task mới) |
 | `check.mjs` | kiểm tài khoản (coin, task đang chạy, workflow) |
 | `lib/accounts.mjs` | đọc `runninghub-accounts.json`, che key, trạng thái tài khoản |
 | `lib/ultra-h3.mjs` | payload Ultra 9 slot, `padIndex`, audio im lặng, preflight workflow |

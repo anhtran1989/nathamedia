@@ -143,7 +143,7 @@ async function batch() {
   const jobs = [];
   const items = data.items;
   for (const kind of ["nhan_vat", "boi_canh", "dao_cu"])
-    for (const it of items.filter((x) => x.kind === kind))
+    for (const it of items.filter((x) => x.kind === kind && x.image_prompt)) // mục da_co (gốc đã có) chỉ chứa biến thể
       jobs.push({ id: it.asset_id, prompt: it.image_prompt, size: sizeFor(it.image_aspect_ratio), refs: [] });
   for (const it of items)
     for (const v of it.variants || [])
