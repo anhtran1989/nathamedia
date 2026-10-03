@@ -44,6 +44,16 @@ Mọi tool có tham số `the_loai`. Hỏi người dùng nếu chưa rõ:
    - Dòng nào trượt là clip trượt: nói thẳng với người dùng, sửa theo bước 8 hoặc cắt phần lỗi khi ghép nếu lỗi nằm gọn ở đầu hay cuối clip. Cảnh có hai tầng xa nhau (người trên cầu, người dưới nước) mà cả hai phải to rõ thì model kéo hai tầng lại gần: tách thành hai cú máy thay vì thêm chữ.
 8. **Sửa lỗi**: `tu_van_sua_loi` với mô tả lỗi + prompt của clip + `the_loai`, sửa segment theo câu trả lời, thêm segment id `…-v2`, sinh prompt lại chỉ cho clip đó và render file yêu cầu mới. Không ghi đè clip cũ.
 
+## Nhảy hài, trang phục hài và nhạc cổ điển
+
+Đoạn nhảy hài làm vui không khí (lắc mông, lớp aerobic Latin, đá chân hàng ngang, robot, thi nhảy, bị bắt gặp khi đang nhảy một mình). Máy chủ đã có luật cho việc này ở mọi bước:
+- Khi viết hoặc nâng kịch bản, ghi trong `ghi_chu` của `viet_kich_ban` ví dụ "thêm 1–2 đoạn nhảy hài ở chỗ vui", hoặc nêu điệu nhảy, người nhảy. Trang phục hài (gáo dừa, vỏ sò, váy cỏ, vòng hoa) cũng nêu ở đây; `prompt_anh_tai_san` sẽ thêm ảnh biến thể `@hula`. Đồ che ngực hài chỉ dành cho nhân vật nam ngố, ông, con vật, côn trùng, và đeo ngoài áo.
+- `lap_phan_canh` và `sinh_prompt_h3` tự viết cảnh nhảy theo luật (mỗi động tác một dòng, khung toàn thân, người lệch nhịp làm ngược hướng). Không đặt tên điệu nhảy, tên bài hát, tên thương hiệu trong prompt.
+- **Nhạc cổ điển hết bản quyền ghép sau** (Can-can, Danube xanh, Beethoven, Rossini, Grieg…), cần Python có `numpy`, `scipy` (`pip install numpy scipy`) và ffmpeg:
+  - Xem danh sách bài: `python -X utf8 tools/nhac_co_dien.py list`
+  - Đo mốc chuyển động của clip: `python -X utf8 tools/ghep_nhac.py <clip.mp4> --moc`
+  - Ghép: `python -X utf8 tools/ghep_nhac.py <clip.mp4> --out <ra.mp4> --cue "bai=can-can,bpm=240,t=0.2,den=7.6,nhac_cu=kazoo" --cue "bai=ta-da,t=8.0"`. Đặt nhạc theo hình: nốt nhấn rơi vào đỉnh chuyển động đo được. Clip định ghép nhạc sau thì báo `lap_phan_canh` là clip "tắt nhạc".
+
 ## Cảnh đánh ngắn (Seedance 2.0 / H3 / Veo)
 
 `prompt_canh_danh` với `mo_ta` (một câu: ai đánh ai, ở đâu, bao lâu), `nen_tang`, `thoi_luong_giay`, `ti_le`, `nhan_vat` (ảnh 1, ảnh 2 là ai, phe thắng). Lưu từng phần thành `prompt-canh-danh/<tên>/phan-NN.txt`. Người dùng báo phần trước thực sự kết thế nào thì gọi lại với `phan` để viết tiếp phần sau cho khớp.
