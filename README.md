@@ -69,6 +69,8 @@ claude plugin marketplace update skill-fight
 
 Bộ công cụ trong thư mục phim (`tools/`) tự được chép lại ở lần làm việc tiếp theo, khi `tools/PHIEN-BAN.txt` cũ hơn plugin; file cấu hình chứa key của bạn không bị đụng. Cài tay bằng `cai-dat.ps1` thì chạy lại lệnh cài.
 
+**0.3.6:** hướng dẫn ghép phim không lệch tiếng (tiếng trễ dần khi nối nhiều clip bằng `-c copy`); luật mới cho cảnh nhảy: người nhảy đứng sẵn từ khung đầu, giả động tác cầm đồ thì tay trống.
+
 **0.3.5:** nhảy hài và trang phục hài (lắc mông, aerobic Latin, đá chân hàng ngang, robot, thi nhảy; gáo dừa, vỏ sò, váy cỏ) có luật ở mọi bước trên máy chủ. Kèm công cụ nhạc cổ điển hết bản quyền: `tools/nhac_co_dien.py` (Can-can, Danube xanh, Beethoven…) và `tools/ghep_nhac.py` (đo mốc chuyển động, ghép nhạc khớp hình; cần `pip install numpy scipy`).
 
 **0.3.4:** render chịu được mạng chập chờn. Mất mạng sau khi đã gửi clip thì công cụ hỏi tiếp rồi tự lấy lại video theo mã task, không báo lỗi oan, không tốn thêm coin. Lấy tay một clip: `node tools/runninghub/lay-lai.mjs <taskId> <tài khoản> <file.mp4>`.

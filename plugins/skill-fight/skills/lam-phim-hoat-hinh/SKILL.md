@@ -45,6 +45,8 @@ Mọi tool có tham số `the_loai`. Hỏi người dùng nếu chưa rõ:
    - Dòng nào trượt là clip trượt: nói thẳng với người dùng, sửa theo bước 8 hoặc cắt phần lỗi khi ghép nếu lỗi nằm gọn ở đầu hay cuối clip. Cảnh có hai tầng xa nhau (người trên cầu, người dưới nước) mà cả hai phải to rõ thì model kéo hai tầng lại gần: tách thành hai cú máy thay vì thêm chữ.
 8. **Sửa lỗi**: `tu_van_sua_loi` với mô tả lỗi + prompt của clip + `the_loai`, sửa segment theo câu trả lời, thêm segment id `…-v2`, sinh prompt lại chỉ cho clip đó và render file yêu cầu mới. Không ghi đè clip cũ.
 
+9. **Ghép phim** (tự ghép bằng ffmpeg): hình và tiếng của MỖI đoạn phải dài đúng bằng nhau trước khi nối (cắt hình đúng N khung, đệm/cắt tiếng đúng N/24 s); nối bằng concat với `-c:v copy -c:a aac` hoặc thêm `-af aresample=async=1`, không `-c copy` cho tiếng. Nối `-c copy` khi tiếng mỗi clip dài hơn hình vài phần trăm giây thì Telegram, CapCut, YouTube làm tiếng trễ dần (60 clip trễ vài giây ở cuối phim). Soát: `ffprobe -show_entries stream=codec_type,duration <phim.mp4>`, hình và tiếng chênh ≤ 0,05 s.
+
 ## Nhảy hài, trang phục hài và nhạc cổ điển
 
 Đoạn nhảy hài làm vui không khí (lắc mông, lớp aerobic Latin, đá chân hàng ngang, robot, thi nhảy, bị bắt gặp khi đang nhảy một mình). Máy chủ đã có luật cho việc này ở mọi bước:
