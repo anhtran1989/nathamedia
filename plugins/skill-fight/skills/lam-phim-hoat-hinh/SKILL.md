@@ -59,7 +59,7 @@ Mọi tool có tham số `the_loai`. Hỏi người dùng nếu chưa rõ:
 
 ## Cảnh đánh ngắn (Seedance 2.0 / H3 / Veo)
 
-`prompt_canh_danh` với `mo_ta` (một câu: ai đánh ai, ở đâu, bao lâu), `nen_tang`, `thoi_luong_giay`, `ti_le`, `nhan_vat` (ảnh 1, ảnh 2 là ai, phe thắng). Lưu từng phần thành `prompt-canh-danh/<tên>/phan-NN.txt`. Người dùng báo phần trước thực sự kết thế nào thì gọi lại với `phan` để viết tiếp phần sau cho khớp.
+`prompt_canh_danh` với `mo_ta` (một câu: ai đánh ai, ở đâu, bao lâu, **phong cách**: võ thuật, tu tiên kiếm khí, hay siêu năng lực kiểu đấm vỡ núi; máy chủ chọn cách dựng đòn theo đó), `nen_tang`, `thoi_luong_giay`, `ti_le`, `nhan_vat` (ảnh 1, ảnh 2 là ai, phe thắng). Lưu từng phần thành `prompt-canh-danh/<tên>/phan-NN.txt`. Người dùng báo phần trước thực sự kết thế nào thì gọi lại với `phan` để viết tiếp phần sau cho khớp.
 
 ## Góp ý cho Natha Media (tool `gop_y`)
 

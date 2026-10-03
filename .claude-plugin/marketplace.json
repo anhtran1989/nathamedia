@@ -11,7 +11,7 @@
       "name": "skill-fight",
       "source": "./plugins/skill-fight",
       "description": "Làm phim hoạt hình AI cho ba thể loại (drama, hài câm, cảnh đánh): nghĩ ý tưởng, viết và soát kịch bản, prompt ảnh tài sản, lập phân cảnh, sinh prompt MiniMax H3 có khoá liền mạch, prompt cảnh đánh Seedance / H3 / Veo, render RunningHub nhiều tài khoản, tư vấn sửa lỗi clip. Cần license key Skill-Fight.",
-      "version": "0.3.7"
+      "version": "0.3.8"
     }
   ]
 }

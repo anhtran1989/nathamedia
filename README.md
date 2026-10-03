@@ -69,6 +69,8 @@ claude plugin marketplace update skill-fight
 
 Bộ công cụ trong thư mục phim (`tools/`) tự được chép lại ở lần làm việc tiếp theo, khi `tools/PHIEN-BAN.txt` cũ hơn plugin; file cấu hình chứa key của bạn không bị đụng. Cài tay bằng `cai-dat.ps1` thì chạy lại lệnh cài.
 
+**0.3.8:** cảnh đánh có lực hơn: đòn chạm trước rồi mới loé, bụi nước bay theo hướng đòn, vệt trượt trên mặt đất; kiểu siêu năng lực (3–5 nhịp lớn, tốc biến có đường đi) và tu tiên (kiếm khí, chưởng sáng rõ) có cách dựng riêng. Ghi phong cách vào câu mô tả cảnh đánh.
+
 **0.3.7:** máy chủ tự tạm dừng key có dấu hiệu dò lấy bộ luật (xem mục Chống sao chép); agent gặp câu báo tạm dừng thì dừng gọi công cụ và báo bạn. Máy chủ lập phân cảnh tiết kiệm hơn ở vòng tự sửa, chất lượng giữ nguyên.
 
 **0.3.6:** hướng dẫn ghép phim không lệch tiếng (tiếng trễ dần khi nối nhiều clip bằng `-c copy`); luật mới cho cảnh nhảy: người nhảy đứng sẵn từ khung đầu, giả động tác cầm đồ thì tay trống.
