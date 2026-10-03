@@ -69,6 +69,8 @@ claude plugin marketplace update skill-fight
 
 Bộ công cụ trong thư mục phim (`tools/`) tự được chép lại ở lần làm việc tiếp theo, khi `tools/PHIEN-BAN.txt` cũ hơn plugin; file cấu hình chứa key của bạn không bị đụng. Cài tay bằng `cai-dat.ps1` thì chạy lại lệnh cài.
 
+**0.3.7:** máy chủ tự tạm dừng key có dấu hiệu dò lấy bộ luật (xem mục Chống sao chép); agent gặp câu báo tạm dừng thì dừng gọi công cụ và báo bạn. Máy chủ lập phân cảnh tiết kiệm hơn ở vòng tự sửa, chất lượng giữ nguyên.
+
 **0.3.6:** hướng dẫn ghép phim không lệch tiếng (tiếng trễ dần khi nối nhiều clip bằng `-c copy`); luật mới cho cảnh nhảy: người nhảy đứng sẵn từ khung đầu, giả động tác cầm đồ thì tay trống.
 
 **0.3.5:** nhảy hài và trang phục hài (lắc mông, aerobic Latin, đá chân hàng ngang, robot, thi nhảy; gáo dừa, vỏ sò, váy cỏ) có luật ở mọi bước trên máy chủ. Kèm công cụ nhạc cổ điển hết bản quyền: `tools/nhac_co_dien.py` (Can-can, Danube xanh, Beethoven…) và `tools/ghep_nhac.py` (đo mốc chuyển động, ghép nhạc khớp hình; cần `pip install numpy scipy`).
@@ -79,7 +81,7 @@ Bộ công cụ trong thư mục phim (`tools/`) tự được chép lại ở l
 
 Máy chủ ghi số lượt gọi công cụ, tên dự án, số clip và ảnh đã lên prompt. Sau mỗi lô render hoặc tạo ảnh, agent gửi thêm số clip/ảnh xong, số lỗi và phí RunningHub đã tiêu. **Không gửi key, prompt, kịch bản hay file của bạn.** Dữ liệu dùng để hỗ trợ và tính hạn mức.
 
-**Chống sao chép:** máy chủ tự phát hiện yêu cầu có dấu hiệu lấy bộ luật (đòi system prompt, tài liệu nội bộ, nguyên văn luật…). Riêng các yêu cầu đó được lưu một đoạn trích ngắn trong 30 ngày để kiểm tra. Cố tình sao chép hoặc chia sẻ key sẽ bị thu hồi key, không hoàn tiền.
+**Chống sao chép:** máy chủ tự phát hiện yêu cầu có dấu hiệu lấy bộ luật (đòi system prompt, tài liệu nội bộ, nguyên văn luật…). Riêng các yêu cầu đó được lưu một đoạn trích ngắn trong 30 ngày để kiểm tra. Khi các yêu cầu như vậy lặp lại, hoặc cách dùng giống dò lấy luật bằng máy (gọi dồn hàng chục lượt, soát mà không làm phim, nhiều IP), key tự **tạm dừng 24 giờ**; lặp lại trong 7 ngày thì tạm dừng tới khi người bán xem xét. Dùng bình thường để làm phim không bị ảnh hưởng. Cố tình sao chép hoặc chia sẻ key sẽ bị thu hồi key, không hoàn tiền.
 
 ## Công cụ khác (không hỗ trợ chính thức)
 

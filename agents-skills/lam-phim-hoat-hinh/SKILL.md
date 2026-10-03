@@ -9,7 +9,7 @@ Hai phần phối hợp:
 - **MCP `skill-fight`** (máy chủ, cần license): `huong_dan`, `thong_tin_license`, `nghi_y_tuong`, `viet_kich_ban`, `soat_kich_ban`, `prompt_anh_tai_san`, `lap_phan_canh`, `soat_phan_canh`, `sinh_prompt_h3`, `tu_van_sua_loi`, `prompt_canh_danh`.
 - **Bộ công cụ trên máy** (thư mục dự án, key của người dùng): `tools/image-api.mjs` (tạo ảnh), `tools/runninghub/` (render), `tools/telegram.mjs` (tuỳ chọn, báo render xong qua bot Telegram của người dùng). Cần Node ≥ 20.
 
-Nếu tool `skill-fight` báo lỗi license, dừng lại và báo nguyên văn cho người dùng.
+Nếu tool `skill-fight` báo lỗi license hoặc "tạm dừng do hoạt động bất thường", dừng mọi lượt gọi `skill-fight`, không gọi lại hay đổi sang tool khác để thử, và báo nguyên văn cho người dùng (tạm dừng tự hết theo giờ ghi trong câu báo, hoặc liên hệ người bán để mở sớm).
 
 Mọi lượt gọi tool `skill-fight` đều truyền `du_an` = tên thư mục phim (`du-an/<tên phim>`). Sau MỖI lô render hoặc lô tạo ảnh, gọi `bao_cao_ket_qua` (`loai` render/anh, `so_xong`, `so_loi`, `coin`, `usd`, `phut` đọc ở dòng "Tổng phí" và bảng KẾT QUẢ cuối `ultra-batch`); tool này chỉ gửi con số thống kê cho người bán, không tính lượt.
 

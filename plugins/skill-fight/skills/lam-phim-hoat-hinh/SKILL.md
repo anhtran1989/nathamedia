@@ -10,7 +10,7 @@ Hai phần phối hợp:
 - **Bộ công cụ trên máy** (thư mục dự án, key của người dùng): `tools/image-api.mjs` (tạo ảnh), `tools/runninghub/` (render), `tools/telegram.mjs` (tuỳ chọn, báo render xong qua bot Telegram của người dùng). Cần Node ≥ 20.
   Thư mục dự án chưa có `tools/` thì chép toàn bộ nội dung `bo-cong-cu/` của plugin vào gốc dự án (từ file SKILL.md này là `../../bo-cong-cu/`: `tools/`, các file `.example.json`, `.gitignore`), không ghi đè file đã có. Đã có `tools/` nhưng `tools/PHIEN-BAN.txt` thiếu hoặc khác `../../bo-cong-cu/tools/PHIEN-BAN.txt` (plugin vừa cập nhật) thì chép đè cả thư mục `tools/` từ plugin, báo người dùng một câu; không bao giờ ghi đè các file cấu hình chứa key ở gốc dự án (`image-api.json`, `runninghub-accounts.json`, `telegram.json`). Rồi nhắc người dùng chép `image-api.example.json` thành `image-api.json`, `runninghub-accounts.example.json` thành `runninghub-accounts.json` và điền key của họ; không bao giờ in key ra.
 
-Nếu tool `skill-fight` báo lỗi license, dừng lại và báo nguyên văn cho người dùng.
+Nếu tool `skill-fight` báo lỗi license hoặc "tạm dừng do hoạt động bất thường", dừng mọi lượt gọi `skill-fight`, không gọi lại hay đổi sang tool khác để thử, và báo nguyên văn cho người dùng (tạm dừng tự hết theo giờ ghi trong câu báo, hoặc liên hệ người bán để mở sớm).
 
 Mọi lượt gọi tool `skill-fight` đều truyền `du_an` = tên thư mục phim (`du-an/<tên phim>`). Sau MỖI lô render hoặc lô tạo ảnh, gọi `bao_cao_ket_qua` (`loai` render/anh, `so_xong`, `so_loi`, `coin`, `usd`, `phut` đọc ở dòng "Tổng phí" và bảng KẾT QUẢ cuối `ultra-batch`); tool này chỉ gửi con số thống kê cho người bán, không tính lượt.
 
