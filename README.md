@@ -69,6 +69,8 @@ claude plugin marketplace update skill-fight
 
 Bộ công cụ trong thư mục phim (`tools/`) tự được chép lại ở lần làm việc tiếp theo, khi `tools/PHIEN-BAN.txt` cũ hơn plugin; file cấu hình chứa key của bạn không bị đụng. Cài tay bằng `cai-dat.ps1` thì chạy lại lệnh cài.
 
+**0.3.9:** đặt mã ảnh an toàn để dùng lại cả series: `tools/soat_tai_san.py` (soát mã trùng/mơ hồ, thêm ảnh không ghi đè nhầm, trang danh mục ảnh có ô tìm); `image-api.mjs` cảnh báo khi một mã đã có ảnh vẽ từ prompt khác.
+
 **0.3.8:** cảnh đánh có lực hơn: đòn chạm trước rồi mới loé, bụi nước bay theo hướng đòn, vệt trượt trên mặt đất; kiểu siêu năng lực (3–5 nhịp lớn, tốc biến có đường đi) và tu tiên (kiếm khí, chưởng sáng rõ) có cách dựng riêng. Ghi phong cách vào câu mô tả cảnh đánh.
 
 **0.3.7:** máy chủ tự tạm dừng key có dấu hiệu dò lấy bộ luật (xem mục Chống sao chép); agent gặp câu báo tạm dừng thì dừng gọi công cụ và báo bạn. Máy chủ lập phân cảnh tiết kiệm hơn ở vòng tự sửa, chất lượng giữ nguyên.

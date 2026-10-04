@@ -18,6 +18,7 @@
  * không tự retry (mỗi lượt tính vào tài khoản ChatGPT của người dùng). Ghi nhật ký <project>/anh-tai-san/_log.jsonl.
  */
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 import http from "node:http";
 import https from "node:https";
@@ -157,14 +158,25 @@ async function batch() {
   const conc = Math.max(1, Number(arg("concurrency", "1")));
   let aborted = false;
 
+  // Mã đã có ảnh mà prompt khác lần tạo trước: cảnh báo to, không lặng lẽ bỏ qua (mã không dấu dễ trùng nghĩa: "sung" là sưng hay súng).
+  const hashOf = (s) => crypto.createHash("sha256").update(String(s ?? "").trim()).digest("hex").slice(0, 16);
+  const daTao = new Map();
+  try { for (const l of fs.readFileSync(log, "utf8").split("\n")) { try { const e = JSON.parse(l); if (e.ok !== false && e.promptHash) daTao.set(e.id, e.promptHash); } catch { /* dòng hỏng */ } } } catch { /* chưa có log */ }
+  let trungMa = 0;
+
   async function runOne(job) {
     const out = path.join(dir, job.id + ".png");
-    if (fs.existsSync(out) && !flag("force")) { console.log(`bỏ qua (đã có) ${job.id}`); return; }
+    if (fs.existsSync(out) && !flag("force")) {
+      const cu = daTao.get(job.id);
+      if (cu && cu !== hashOf(job.prompt)) { trungMa++; console.log(`⚠ TRÙNG MÃ ${job.id}: đã có ảnh tạo từ PROMPT KHÁC — đặt mã mới (tools/soat_tai_san.py), hoặc --force nếu đúng là muốn vẽ lại`); }
+      else console.log(`bỏ qua (đã có) ${job.id}`);
+      return;
+    }
     if (flag("dry-run")) { console.log(`[dry-run] ${job.id} ${job.size} refs=${job.refs.length} prompt=${job.prompt.length} ký tự`); return; }
     console.log(`BẮT ĐẦU ${job.id}`);
     try {
       const res = await generate({ prompt: job.prompt, out, size: job.size, refs: job.refs });
-      fs.appendFileSync(log, JSON.stringify({ id: job.id, ...res, at: new Date().toISOString() }) + "\n");
+      fs.appendFileSync(log, JSON.stringify({ id: job.id, ...res, promptHash: hashOf(job.prompt), at: new Date().toISOString() }) + "\n");
       console.log(`XONG ${job.id} (${res.sec}s, ${res.bytes} bytes)`);
     } catch (e) {
       fs.appendFileSync(log, JSON.stringify({ id: job.id, ok: false, error: e.message, at: new Date().toISOString() }) + "\n");
@@ -190,6 +202,7 @@ async function batch() {
     wave.forEach((j) => daLam.add(j.id));
   }
   for (const j of conLai) console.log(`chờ ảnh gốc ${j.id}: thiếu ${j.refs.filter((r) => !coRef(r)).map((m) => path.basename(m)).join(", ")}`);
+  if (trungMa) console.log(`⚠ ${trungMa} mã đã có ảnh từ prompt khác: kiểm lại trước khi dùng trong phân cảnh.`);
 }
 
 const map = { ping, models, resp, batch };
